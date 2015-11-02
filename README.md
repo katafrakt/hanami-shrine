@@ -1,28 +1,44 @@
 # Lotus::Shrine
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/lotus/shrine`. To experiment with that code, run `bin/console` for an interactive prompt.
+This gem aims at providing support for [Shrine](https://github.com/janko-m/shrine) uploader in Lotus applications. It also tries to be as simple as possible, without polluting the world around.
 
-TODO: Delete this and the text above, and describe your gem
+For now it's not released to RubyGems so please, use the git version. I promise to release as soon as I think it makes any sense :wink:
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'lotus-shrine'
+gem 'lotus-shrine', github: 'katafrakt/lotus-shrine'
 ```
 
 And then execute:
 
     $ bundle
 
-Or install it yourself as:
-
-    $ gem install lotus-shrine
-
 ## Usage
 
-TODO: Write usage instructions here
+Setup Shrine as described in [its repo](https://github.com/janko-m/shrine). Then, in your repository add (assuming your attachment is `avatar`):
+
+```ruby
+include Lotus::Shrine::Repository[:avatar]
+```
+
+Adn in your entity:
+
+```ruby
+include YourUploader[:avatar] # YourUploader should inherit from Shrine, of course
+```
+
+To use validations, include this in your entity too:
+
+```ruby
+include Lotus::Shrine::Validations
+```
+
+Remember that you have to call `valid?` or `validate` yourself. There is not as much magic in Lotus as it is in Rails :wink:
+
+For inspiration look at [the specs](https://github.com/katafrakt/lotus-shrine/tree/master/spec/lotus) or [example repo](https://github.com/katafrakt/lotus-shrine-example).
 
 ## Development
 
@@ -32,10 +48,11 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/lotus-shrine.
+Bug reports and pull requests are welcome on GitHub at https://github.com/katafrakt/lotus-shrine.
 
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
 
+Cat images (used in tests) are public domain taken from [Wikimedia Commons](http://commons.wikimedia.org).
