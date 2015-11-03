@@ -4,6 +4,8 @@ This gem aims at providing support for [Shrine](https://github.com/janko-m/shrin
 
 For now it's not released to RubyGems so please, use the git version. I promise to release as soon as I think it makes any sense :wink:
 
+[![Build Status](https://travis-ci.org/katafrakt/lotus-shrine.svg)](https://travis-ci.org/katafrakt/lotus-shrine)
+
 ## Installation
 
 Add this line to your application's Gemfile:
