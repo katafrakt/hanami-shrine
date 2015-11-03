@@ -1,7 +1,6 @@
 require 'spec_helper'
 require 'lotus/model'
 require 'lotus-validations'
-require 'pry'
 
 RSpec.describe Lotus::Shrine::Validations do
   class CatUploader < Shrine
