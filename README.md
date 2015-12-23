@@ -20,22 +20,47 @@ And then execute:
 
 ## Usage
 
-Setup Shrine as described in [its repo](https://github.com/janko-m/shrine). Then, in your repository add (assuming your attachment is `avatar`):
+Setup Shrine with `lotus` plugin enabled. Check [Shrine's repository](https://github.com/janko-m/shrine) for more detailed description of the process.
 
 ```ruby
-include Lotus::Shrine::Repository[:avatar]
+class ImageAttachment < Shrine
+  plugin :lotus
+end
 ```
 
-Adn in your entity:
+Then, in your repository add (assuming your attachment is `avatar`):
 
 ```ruby
-include YourUploader[:avatar] # YourUploader should inherit from Shrine, of course
+extend ImageAttachment.repository(:avatar)
 ```
 
-To use validations, include this in your entity too:
+And in your entity:
 
 ```ruby
-include Lotus::Shrine::Validations
+include ImageAttachment[:avatar]
+```
+
+To use validations, enable them during setup of the plugin:
+
+```ruby
+class ImageAttachment < Shrine
+  plugin :lotus, validations: true
+end
+```
+
+And you can write some validation code. For example:
+
+```ruby
+class ImageAttachment < Shrine
+  plugin :validation_helpers
+  plugin :determine_mime_type
+  plugin :lotus, validations: true
+
+  Attacher.validate do
+    validate_max_size 180_000, message: "is too large (max is 2 MB)"
+    validate_mime_type_inclusion ["image/jpg", "image/jpeg"]
+  end
+end
 ```
 
 Remember that you have to call `valid?` or `validate` yourself. There is not as much magic in Lotus as it is in Rails :wink:
