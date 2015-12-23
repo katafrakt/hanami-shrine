@@ -2,8 +2,6 @@
 
 This gem aims at providing support for [Shrine](https://github.com/janko-m/shrine) uploader in Lotus applications. It also tries to be as simple as possible, without polluting the world around.
 
-For now it's not released to RubyGems so please, use the git version. I promise to release as soon as I think it makes any sense :wink:
-
 [![Build Status](https://travis-ci.org/katafrakt/lotus-shrine.svg)](https://travis-ci.org/katafrakt/lotus-shrine)
 
 ## Installation
@@ -11,7 +9,7 @@ For now it's not released to RubyGems so please, use the git version. I promise 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'lotus-shrine', github: 'katafrakt/lotus-shrine'
+gem 'lotus-shrine'
 ```
 
 And then execute:
