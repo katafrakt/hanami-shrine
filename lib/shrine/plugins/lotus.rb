@@ -33,7 +33,7 @@ class Shrine
       class RepositoryMethods < Module
         def initialize(name)
           module_eval <<-RUBY, __FILE__, __LINE__ + 1
-            def create(entity)\
+            def create(entity)
               save_#{name}_attachment(entity) { super }
             end
             def update(entity)
