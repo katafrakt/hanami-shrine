@@ -2,10 +2,11 @@ require 'spec_helper'
 require 'lotus/model'
 require 'lotus-validations'
 
-RSpec.describe Lotus::Shrine::Validations do
+RSpec.describe 'Lotus::Shrine::Validations' do
   class CatUploader < Shrine
     plugin :validation_helpers
     plugin :determine_mime_type
+    plugin :lotus, validations: true
 
     Attacher.validate do
       validate_max_size 180_000, message: "is too large (max is 2 MB)"
@@ -16,7 +17,6 @@ RSpec.describe Lotus::Shrine::Validations do
   class Cat
     include Lotus::Entity
     include Lotus::Validations
-    include Lotus::Shrine::Validations
     include CatUploader[:image]
 
     attributes :title, :image_data
@@ -24,7 +24,7 @@ RSpec.describe Lotus::Shrine::Validations do
 
   class CatRepository
     include Lotus::Repository
-    include Lotus::Shrine::Repository[:image]
+    extend CatUploader.repository(:image)
   end
 
   Lotus::Model.configure do

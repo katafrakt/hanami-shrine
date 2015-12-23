@@ -3,21 +3,25 @@ require 'fileutils'
 require 'lotus/model'
 require 'json'
 
-describe Lotus::Shrine::Repository do
+describe 'Lotus::Shrine::Repository' do
   after do
     FileUtils.rm_rf('spec/tmp')
   end
 
-  class Cat
+  class ImageAttachment < Shrine
+    plugin :lotus
+  end
+
+  class Kitten
     include Lotus::Entity
-    include Shrine[:image]
+    include ImageAttachment[:image]
 
     attributes :title, :image_data
   end
 
-  class CatRepository
+  class KittenRepository
     include Lotus::Repository
-    include Lotus::Shrine::Repository[:image]
+    extend ImageAttachment.repository(:image)
   end
 
   Lotus::Model.configure do
@@ -25,8 +29,8 @@ describe Lotus::Shrine::Repository do
 
     mapping do
       collection :images do
-        entity Cat
-        repository CatRepository
+        entity Kitten
+        repository KittenRepository
 
         attribute :id,          Integer
         attribute :image_data,  String
@@ -35,9 +39,9 @@ describe Lotus::Shrine::Repository do
   end.load!
 
   let(:cat) do
-    cat = Cat.new
+    cat = Kitten.new
     cat.image = ::File.open('spec/support/cat.jpg')
-    CatRepository.create(cat)
+    KittenRepository.create(cat)
   end
 
   shared_context 'creation' do
@@ -60,7 +64,7 @@ describe Lotus::Shrine::Repository do
     let(:new_data) { JSON.parse(updated_cat.image_data) }
     let(:updated_cat) do
       cat.image = File.open('spec/support/cat2.jpg')
-      CatRepository.update(cat)
+      KittenRepository.update(cat)
     end
 
     it 'should have different id' do
@@ -87,7 +91,7 @@ describe Lotus::Shrine::Repository do
     let!(:before_delete_data) { JSON.parse(cat.image_data) }
 
     before do
-      CatRepository.delete(cat)
+      KittenRepository.delete(cat)
     end
 
     it 'should not exist' do
@@ -96,7 +100,7 @@ describe Lotus::Shrine::Repository do
 
     it 'should delete entity' do
       expect(cat.id).not_to be_nil
-      expect(CatRepository.find(cat.id)).to eq(nil)
+      expect(KittenRepository.find(cat.id)).to eq(nil)
     end
   end
 
