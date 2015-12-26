@@ -3,6 +3,7 @@
 This gem aims at providing support for [Shrine](https://github.com/janko-m/shrine) uploader in Lotus applications. It also tries to be as simple as possible, without polluting the world around.
 
 [![Build Status](https://travis-ci.org/katafrakt/lotus-shrine.svg)](https://travis-ci.org/katafrakt/lotus-shrine)
+[![Gem Version](https://badge.fury.io/rb/lotus-shrine.svg)](https://badge.fury.io/rb/lotus-shrine)
 
 ## Installation
 
