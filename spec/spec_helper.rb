@@ -1,5 +1,5 @@
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-require 'lotus/shrine'
+require 'hanami/shrine'
 require 'shrine'
 require 'shrine/storage/file_system'
 

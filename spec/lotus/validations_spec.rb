@@ -1,12 +1,12 @@
 require 'spec_helper'
-require 'lotus/model'
-require 'lotus-validations'
+require 'hanami/model'
+require 'hanami-validations'
 
-RSpec.describe 'Lotus::Shrine::Validations' do
+RSpec.describe 'Hanami::Shrine::Validations' do
   class CatUploader < Shrine
     plugin :validation_helpers
     plugin :determine_mime_type
-    plugin :lotus, validations: true
+    plugin :hanami, validations: true
 
     Attacher.validate do
       validate_max_size 180_000, message: "is too large (max is 2 MB)"
@@ -15,20 +15,20 @@ RSpec.describe 'Lotus::Shrine::Validations' do
   end
 
   class Cat
-    include Lotus::Entity
-    include Lotus::Validations
+    include Hanami::Entity
+    include Hanami::Validations
     include CatUploader[:image]
 
     attributes :title, :image_data
   end
 
   class CatRepository
-    include Lotus::Repository
+    include Hanami::Repository
     extend CatUploader.repository(:image)
   end
 
-  Lotus::Model.configure do
-    adapter type: :memory, uri: 'memory://localhost/lotus-shrine_development'
+  Hanami::Model.configure do
+    adapter type: :memory, uri: 'memory://localhost/hanami-shrine_development'
 
     mapping do
       collection :images do

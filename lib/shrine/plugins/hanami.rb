@@ -2,16 +2,16 @@ require 'shrine'
 
 class Shrine
   module Plugins
-    module Lotus
+    module Hanami
       def self.configure(uploader, validations: nil)
-        uploader.opts[:lotus_validations] = validations
+        uploader.opts[:hanami_validations] = validations
       end
 
       module AttachmentMethods
         def initialize(name)
           super
 
-          if shrine_class.opts[:lotus_validations]
+          if shrine_class.opts[:hanami_validations]
             module_eval <<-RUBY, __FILE__, __LINE__ + 1
               def validate
                 super
@@ -64,6 +64,6 @@ class Shrine
       end
     end
 
-    register_plugin(:lotus, Lotus)
+    register_plugin(:hanami, Hanami)
   end
 end

@@ -1,31 +1,31 @@
 require 'spec_helper'
 require 'fileutils'
-require 'lotus/model'
+require 'hanami/model'
 require 'json'
 
-describe 'Lotus::Shrine::Repository' do
+describe 'Hanami::Shrine::Repository' do
   after do
     FileUtils.rm_rf('spec/tmp')
   end
 
   class ImageAttachment < Shrine
-    plugin :lotus
+    plugin :hanami
   end
 
   class Kitten
-    include Lotus::Entity
+    include Hanami::Entity
     include ImageAttachment[:image]
 
     attributes :title, :image_data
   end
 
   class KittenRepository
-    include Lotus::Repository
+    include Hanami::Repository
     extend ImageAttachment.repository(:image)
   end
 
-  Lotus::Model.configure do
-    adapter type: :memory, uri: 'memory://localhost/lotus-shrine_development'
+  Hanami::Model.configure do
+    adapter type: :memory, uri: 'memory://localhost/hanami-shrine_development'
 
     mapping do
       collection :images do

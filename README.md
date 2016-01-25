@@ -1,16 +1,16 @@
-# Lotus::Shrine
+# Hanami::Shrine
 
-This gem aims at providing support for [Shrine](https://github.com/janko-m/shrine) uploader in Lotus applications. It also tries to be as simple as possible, without polluting the world around.
+This gem aims at providing support for [Shrine](https://github.com/janko-m/shrine) uploader in Hanami applications. It also tries to be as simple as possible, without polluting the world around.
 
-[![Build Status](https://travis-ci.org/katafrakt/lotus-shrine.svg)](https://travis-ci.org/katafrakt/lotus-shrine)
-[![Gem Version](https://badge.fury.io/rb/lotus-shrine.svg)](https://badge.fury.io/rb/lotus-shrine)
+[![Build Status](https://travis-ci.org/katafrakt/hanami-shrine.svg)](https://travis-ci.org/katafrakt/hanami-shrine)
+[![Gem Version](https://badge.fury.io/rb/hanami-shrine.svg)](https://badge.fury.io/rb/hanami-shrine)
 
 ## Installation
 
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'lotus-shrine'
+gem 'hanami-shrine'
 ```
 
 And then execute:
@@ -19,11 +19,11 @@ And then execute:
 
 ## Usage
 
-Setup Shrine with `lotus` plugin enabled. Check [Shrine's repository](https://github.com/janko-m/shrine) for more detailed description of the process.
+Setup Shrine with `hanami` plugin enabled. Check [Shrine's repository](https://github.com/janko-m/shrine) for more detailed description of the process.
 
 ```ruby
 class ImageAttachment < Shrine
-  plugin :lotus
+  plugin :hanami
 end
 ```
 
@@ -43,7 +43,7 @@ To use validations, enable them during setup of the plugin:
 
 ```ruby
 class ImageAttachment < Shrine
-  plugin :lotus, validations: true
+  plugin :hanami, validations: true
 end
 ```
 
@@ -53,7 +53,7 @@ And you can write some validation code. For example:
 class ImageAttachment < Shrine
   plugin :validation_helpers
   plugin :determine_mime_type
-  plugin :lotus, validations: true
+  plugin :hanami, validations: true
 
   Attacher.validate do
     validate_max_size 180_000, message: "is too large (max is 2 MB)"
@@ -62,9 +62,9 @@ class ImageAttachment < Shrine
 end
 ```
 
-Remember that you have to call `valid?` or `validate` yourself. There is not as much magic in Lotus as it is in Rails :wink:
+Remember that you have to call `valid?` or `validate` yourself. There is not as much magic in Hanami as it is in Rails :wink:
 
-For inspiration look at [the specs](https://github.com/katafrakt/lotus-shrine/tree/master/spec/lotus) or [example repo](https://github.com/katafrakt/lotus-shrine-example).
+For inspiration look at [the specs](https://github.com/katafrakt/hanami-shrine/tree/master/spec/hanami) or [example repo](https://github.com/katafrakt/hanami-shrine-example).
 
 ## Development
 
@@ -74,7 +74,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/katafrakt/lotus-shrine.
+Bug reports and pull requests are welcome on GitHub at https://github.com/katafrakt/hanami-shrine.
 
 
 ## License
