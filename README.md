@@ -64,7 +64,7 @@ end
 
 Remember that you have to call `valid?` or `validate` yourself. There is not as much magic in Hanami as it is in Rails :wink:
 
-For inspiration look at [the specs](https://github.com/katafrakt/hanami-shrine/tree/master/spec/hanami) or [example repo](https://github.com/katafrakt/hanami-shrine-example).
+For inspiration read a [blog post](http://katafrakt.me/2016/02/04/shrine-hanami-uploads/), look at [the specs](https://github.com/katafrakt/hanami-shrine/tree/master/spec/hanami) or [example repo](https://github.com/katafrakt/hanami-shrine-example).
 
 ## Development
 
