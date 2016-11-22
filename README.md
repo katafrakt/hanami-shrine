@@ -5,6 +5,12 @@ This gem aims at providing support for [Shrine](https://github.com/janko-m/shrin
 [![Build Status](https://travis-ci.org/katafrakt/hanami-shrine.svg)](https://travis-ci.org/katafrakt/hanami-shrine)
 [![Gem Version](https://badge.fury.io/rb/hanami-shrine.svg)](https://badge.fury.io/rb/hanami-shrine)
 
+### Current compatibility status
+
+* working with Hanami version 0.7.x
+* working with Hanami version 0.8.x without validations (which have been extracted to separate gem)
+* does not work work with Hanami 0.9.x (work in progress)
+
 ## Installation
 
 Add this line to your application's Gemfile:
