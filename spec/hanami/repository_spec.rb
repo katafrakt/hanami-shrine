@@ -1,47 +1,19 @@
 require 'spec_helper'
+require 'fixtures/models'
 require 'fileutils'
-require 'hanami/model'
 require 'json'
 
 describe 'Hanami::Shrine::Repository' do
   after do
-    FileUtils.rm_rf('spec/tmp')
+    FileUtils.rm_rf('spec/tmp/uploads')
   end
 
-  class ImageAttachment < Shrine
-    plugin :hanami
-  end
-
-  class Kitten
-    include Hanami::Entity
-    include ImageAttachment[:image]
-
-    attributes :title, :image_data
-  end
-
-  class KittenRepository
-    include Hanami::Repository
-    extend ImageAttachment.repository(:image)
-  end
-
-  Hanami::Model.configure do
-    adapter type: :memory, uri: 'memory://localhost/hanami-shrine_development'
-
-    mapping do
-      collection :images do
-        entity Kitten
-        repository KittenRepository
-
-        attribute :id,          Integer
-        attribute :image_data,  String
-      end
-    end
-  end.load!
+  let(:image) { ::File.open('spec/support/cat.jpg') }
+  let(:image2) { ::File.open('spec/support/cat2.jpg') }
 
   let(:cat) do
-    cat = Kitten.new
-    cat.image = ::File.open('spec/support/cat.jpg')
-    KittenRepository.create(cat)
+    cat = Kitten.new(image: image)
+    KittenRepository.new.create(cat)
   end
 
   shared_context 'creation' do
@@ -57,14 +29,36 @@ describe 'Hanami::Shrine::Repository' do
       json_data = JSON.parse(cat.image_data)
       expect(File.exist?('spec/tmp/uploads/' + json_data["id"])).to eq(true)
     end
+
+    context 'with mutliple attachments' do
+      it 'saves one of them' do
+        cat = MultiCat.new(cat1: image)
+        cat = MultiCatRepository.new.create(cat)
+        expect(cat.cat1).not_to be_nil
+        expect(cat.cat2).to be_nil
+        json_data = JSON.parse(cat.cat1_data)
+        expect(File.exist?('spec/tmp/uploads/' + json_data["id"])).to eq(true)
+      end
+
+      it 'saves both' do
+        cat = MultiCat.new(cat1: image, cat2: image2)
+        cat = MultiCatRepository.new.create(cat)
+        expect(cat.cat2).not_to be_nil
+        expect(cat.cat1).not_to be_nil
+        json_data = JSON.parse(cat.cat1_data)
+        expect(File.exist?('spec/tmp/uploads/' + json_data["id"])).to eq(true)
+        json_data = JSON.parse(cat.cat2_data)
+        expect(File.exist?('spec/tmp/uploads/' + json_data["id"])).to eq(true)
+      end
+   end
   end
 
   shared_context 'update' do
     let!(:before_update_data) { JSON.parse(cat.image_data) }
     let(:new_data) { JSON.parse(updated_cat.image_data) }
     let(:updated_cat) do
-      cat.image = File.open('spec/support/cat2.jpg')
-      KittenRepository.update(cat)
+      new_cat = Kitten.new(image: File.open('spec/support/cat2.jpg'))
+      KittenRepository.new.update(cat.id, new_cat)
     end
 
     it 'should have different id' do
@@ -91,7 +85,7 @@ describe 'Hanami::Shrine::Repository' do
     let!(:before_delete_data) { JSON.parse(cat.image_data) }
 
     before do
-      KittenRepository.delete(cat)
+      KittenRepository.new.delete(cat.id)
     end
 
     it 'should not exist' do
@@ -100,7 +94,7 @@ describe 'Hanami::Shrine::Repository' do
 
     it 'should delete entity' do
       expect(cat.id).not_to be_nil
-      expect(KittenRepository.find(cat.id)).to eq(nil)
+      expect(KittenRepository.new.find(cat.id)).to eq(nil)
     end
   end
 
