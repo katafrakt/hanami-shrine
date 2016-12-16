@@ -30,7 +30,7 @@ end
 Then, in your repository add (assuming your attachment is `avatar`):
 
 ```ruby
-extend ImageAttachment.repository(:avatar)
+prepend ImageAttachment.repository(:avatar)
 ```
 
 And in your entity:
@@ -39,32 +39,14 @@ And in your entity:
 include ImageAttachment[:avatar]
 ```
 
-To use validations, enable them during setup of the plugin:
-
-```ruby
-class ImageAttachment < Shrine
-  plugin :hanami, validations: true
-end
-```
-
-And you can write some validation code. For example:
-
-```ruby
-class ImageAttachment < Shrine
-  plugin :validation_helpers
-  plugin :determine_mime_type
-  plugin :hanami, validations: true
-
-  Attacher.validate do
-    validate_max_size 180_000, message: "is too large (max is 2 MB)"
-    validate_mime_type_inclusion ["image/jpg", "image/jpeg"]
-  end
-end
-```
-
-Remember that you have to call `valid?` or `validate` yourself. There is not as much magic in Hanami as it is in Rails :wink:
-
 For inspiration read a [blog post](http://katafrakt.me/2016/02/04/shrine-hanami-uploads/), look at [the specs](https://github.com/katafrakt/hanami-shrine/tree/master/spec/hanami) or [example repo](https://github.com/katafrakt/hanami-shrine-example).
+
+## Important changes since 0.1 version
+
+As Hanami has been upgraded to 0.9, it started to use new engine for the entities in `hanami-model`. It required heavy changes in `hanami-shrine` to accomodate to new paradigm. Unfortunately, some of them are breaking. Here's a summary list:
+* Validations are gone (for now, hopefully)
+* You need to use `prepend` instead of `extend` in your repository
+* Entities are now read-only. You need to initialize them with the attachment, not add it later: `MyEntity.new(avatar: File.open('my_avatar.png')`. This is a Hanami change, but it's worth mentioning here as well.
 
 ## Development
 
