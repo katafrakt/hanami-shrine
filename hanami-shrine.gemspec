@@ -21,10 +21,10 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'shrine'
   spec.add_dependency 'hanami-model', '>= 0.7'
+  spec.add_dependency "hanami-utils"
 
   spec.add_development_dependency "bundler", "~> 1.10"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "json"
-  spec.add_development_dependency "hanami-validations"
 end
