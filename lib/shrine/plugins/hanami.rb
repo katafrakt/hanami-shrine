@@ -1,5 +1,6 @@
 require 'shrine'
 require 'hanami/utils/class_attribute'
+require 'ostruct'
 
 class Shrine
   module Plugins
@@ -88,21 +89,19 @@ class Shrine
               yield(entity)
             end
 
-            def save_attachment(original_entity, name, attacher_class)
-              attacher_name = "#{name}_attacher".to_sym
-              attacher_proxy = Entity.attacher(name, attacher_class)
+            def save_attachment(original_entity, name, uploader_class)
+              file = original_entity.send(name)
 
-              if original_entity.send(name)
-                attacher_proxy.send("#{name}=", original_entity.send(name))
-                attacher_proxy.send(attacher_name).save
+              if file
+                attacher = uploader_class::Attacher.new(OpenStruct.new, name)
 
-                attacher_proxy.send(attacher_name).replace
-                attacher_proxy.send(attacher_name)._promote
+                attacher.assign(file)
+                attacher.finalize
 
                 original_entity_attributes = original_entity.attributes
                 original_entity_attributes.delete(name)
 
-                entity = original_entity.class.new(original_entity_attributes.merge(:"#{name}_data" => attacher_proxy.send("#{name}_data")))
+                entity = original_entity.class.new(original_entity_attributes.merge(:"#{name}_data" => attacher.read))
               else
                 entity = original_entity
               end
@@ -116,26 +115,6 @@ class Shrine
               end
             end
           end
-        end
-      end
-
-      module Entity
-        def self.attacher(name, attacher)
-          attachment_proxy ||= Class.new
-          attachment_proxy.send(:include, attacher[name])
-          attachment_proxy.class_eval do
-            define_method :initialize do |attributes|
-            end
-
-            define_method :"#{name}_data" do
-              @attachment_data
-            end
-
-            define_method :"#{name}_data=" do |data|
-              @attachment_data = data
-            end
-          end
-          attachment_proxy.new({})
         end
       end
     end
