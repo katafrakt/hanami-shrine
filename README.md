@@ -8,9 +8,12 @@ This gem aims at providing support for [Shrine](https://github.com/janko-m/shrin
 
 ### Current compatibility status
 
-* working with Hanami version 0.7.x
-* working with Hanami version 0.8.x without validations (which have been extracted to separate gem)
-* does not work work with Hanami 0.9.x (work in progress, see [#1](https://github.com/katafrakt/hanami-shrine/issues/1))
+#### **0.1.x**
+* works with Hanami 0.7.x
+* works with Hanami 0.8.x without validations (which have been extracted to separate gem)
+
+#### **0.2.x**
+* works with Hanami 0.9.x
 
 ## Installation
 
