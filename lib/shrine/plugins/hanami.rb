@@ -101,9 +101,9 @@ class Shrine
                 original_entity_attributes = original_entity.attributes
                 original_entity_attributes.delete(name)
 
-                entity = original_entity.class.new(original_entity_attributes.merge(:"#{name}_data" => attacher.read))
+                original_entity.class.new(original_entity_attributes.merge(:"#{name}_data" => attacher.read))
               else
-                entity = original_entity
+                original_entity
               end
             end
 

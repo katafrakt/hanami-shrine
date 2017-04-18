@@ -8,8 +8,16 @@ describe 'Hanami::Shrine with plugins' do
     FileUtils.rm_rf('spec/tmp/uploads')
   end
 
-  let(:image) { ::File.open('spec/support/cat.jpg') }
-  let(:image2) { ::File.open('spec/support/cat2.jpg') }
+  let(:image) do
+    FileUtils.cp('spec/support/cat.jpg', 'spec/support/cat_copy.jpg')
+    ::File.open('spec/support/cat_copy.jpg')
+  end
+
+  let(:image2) do
+    FileUtils.cp('spec/support/cat2.jpg', 'spec/support/cat2_copy.jpg')
+    ::File.open('spec/support/cat2_copy.jpg')
+  end
+
   let(:model) do
     model = PluginsModel.new(image: image)
     PluginsModelRepository.new.create(model)
