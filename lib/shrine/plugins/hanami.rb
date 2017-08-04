@@ -98,7 +98,7 @@ class Shrine
                 attacher.assign(file)
                 attacher.finalize
 
-                original_entity_attributes = original_entity.attributes
+                original_entity_attributes = original_entity.attributes.dup
                 original_entity_attributes.delete(name)
 
                 original_entity.class.new(original_entity_attributes.merge(:"#{name}_data" => attacher.read))
