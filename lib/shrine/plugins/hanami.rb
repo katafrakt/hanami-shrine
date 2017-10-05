@@ -6,7 +6,7 @@ class Shrine
   module Plugins
     module Hanami
       module AttachmentMethods
-        def initialize(name)
+        def initialize(name, **options)
           super
 
           module_eval <<-RUBY, __FILE__, __LINE__ + 1
