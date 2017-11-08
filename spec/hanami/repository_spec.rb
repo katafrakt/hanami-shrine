@@ -79,6 +79,14 @@ describe 'Hanami::Shrine::Repository' do
 
   context '#create' do
     include_context 'creation'
+
+    context 'with hash params' do
+      let(:cat) do
+        KittenRepository.new.create(image: image)
+      end
+
+      include_context 'creation'
+    end
   end
 
   context '#delete' do
@@ -100,6 +108,14 @@ describe 'Hanami::Shrine::Repository' do
 
   context '#update' do
     include_context 'update'
+
+    context 'with hash params' do
+      let(:cat) do
+        KittenRepository.new.create(image: image)
+      end
+
+      include_context 'update'
+    end
   end
 
   context '#persist' do

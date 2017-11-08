@@ -78,14 +78,20 @@ class Shrine
             end
 
             private
+
             def _attachments
               self.class._attachments
             end
 
             def save_attachments(entity)
+              if !entity.is_a?(::Hanami::Entity)
+                entity = self.class.entity.new(entity)
+              end
+
               _attachments.each do |a|
                 entity = save_attachment(entity, a[:name], a[:class])
               end
+
               yield(entity)
             end
 
