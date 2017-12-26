@@ -11,7 +11,6 @@ class Shrine
 
           module_eval <<-RUBY, __FILE__, __LINE__ + 1
             module EntitySupport
-              attr_reader :attributes
               def initialize(attributes)
                 attachment = attributes[:#{name}]
                 @_#{name} = attachment
