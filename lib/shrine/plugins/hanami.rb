@@ -123,6 +123,18 @@ class Shrine
           end
         end
       end
+
+      module AttacherMethods
+        private
+
+        def convert_after_read(value)
+          sequel_json_value?(value) ? value.to_hash : super
+        end
+
+        def sequel_json_value?(value)
+          defined?(Sequel::Postgres::JSONHashBase) && value.is_a?(Sequel::Postgres::JSONHashBase)
+        end
+      end
     end
 
     register_plugin(:hanami, Hanami)
