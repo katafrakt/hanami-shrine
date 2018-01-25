@@ -2,3 +2,18 @@ language: ruby
 rvm:
   - 2.3.3
 before_install: gem install bundler -v 1.10.6
+
+services:
+  - postgresql
+  - mysql
+
+env:
+  - DB=sqlite
+  - DB=mysql
+  - DB=postgres
+
+script:
+  - cp .env.travis .env
+  - if [[ "$DB" == "mysql" ]]; then mysql -e 'CREATE DATABASE IF NOT EXISTS test;'; fi
+  - if [[ "$DB" == "postgres" ]]; then psql -c 'create database test;' -U postgres; fi
+  - bundle exec rake

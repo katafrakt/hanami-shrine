@@ -1,3 +1,6 @@
+require 'dotenv'
+Dotenv.load!
+
 $LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
 require 'hanami/shrine'
 require 'shrine'
@@ -5,14 +8,15 @@ require 'shrine/storage/file_system'
 require 'hanami/model'
 require 'hanami/model/sql'
 require 'hanami/model/migrator'
+require_relative 'database_helper'
 
 Shrine.storages = {
   cache: Shrine::Storage::FileSystem.new(Dir.tmpdir),
-  store: Shrine::Storage::FileSystem.new("spec/tmp", prefix: "uploads")
+  store: Shrine::Storage::FileSystem.new("spec/tmp", prefix: 'uploads')
 }
 
 Hanami::Model.configure do
-  adapter :sql, 'sqlite://spec/tmp/hanami-shrine_test'
+  adapter :sql, DatabaseHelper.db_url
   migrations Pathname.new(__dir__ + '/fixtures/migrations').to_s
 end
-Hanami::Model::Migrator.prepare
+Hanami::Model::Migrator.migrate
