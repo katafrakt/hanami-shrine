@@ -1,6 +1,6 @@
 # Hanami::Shrine
 
-This gem aims at providing support for [Shrine](https://github.com/janko-m/shrine) uploader in Hanami applications. It also tries to be as simple as possible, without polluting the world around.
+This gem aims at providing support for [Shrine](https://github.com/shrinerb/shrine) uploader in Hanami applications. It also tries to be as simple as possible, without polluting the world around.
 
 [![Build Status](https://travis-ci.org/katafrakt/hanami-shrine.svg)](https://travis-ci.org/katafrakt/hanami-shrine)
 [![Gem Version](https://badge.fury.io/rb/hanami-shrine.svg)](https://badge.fury.io/rb/hanami-shrine)
@@ -31,7 +31,7 @@ And then execute:
 
 ## Usage
 
-Setup Shrine with `hanami` plugin enabled. Check [Shrine's repository](https://github.com/janko-m/shrine) for more detailed description of the process.
+Setup Shrine with `hanami` plugin enabled. Check [Shrine's repository](https://github.com/shrinerb/shrine) for more detailed description of the process.
 
 ```ruby
 class ImageAttachment < Shrine
