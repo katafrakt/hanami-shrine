@@ -6,17 +6,6 @@ This gem aims at providing support for [Shrine](https://github.com/shrinerb/shri
 [![Gem Version](https://badge.fury.io/rb/hanami-shrine.svg)](https://badge.fury.io/rb/hanami-shrine)
 [![Code Climate](https://codeclimate.com/github/katafrakt/hanami-shrine/badges/gpa.svg)](https://codeclimate.com/github/katafrakt/hanami-shrine)
 
-### Current compatibility status
-
-#### **0.1.x**
-* works with Hanami 0.7.x
-* works with Hanami 0.8.x without validations (which have been extracted to separate gem)
-
-#### **0.2.x**
-* works with Hanami 0.9.x and 1.0. 
-
-Future compatibility will only be provided with Hanami 1.0 and later (which will propably be compatible with 0.9 too).
-
 ## Installation
 
 Add this line to your application's Gemfile:
