@@ -14,12 +14,12 @@ class ComplexAttachment < Shrine
   plugin :store_dimensions
 
   process(:store) do |io, context|
-    original = io.download
+    io.download do |original|
+      size_100 = ImageProcessing::MiniMagick.source(original).resize_to_limit!(100, 100)
+      size_30 = ImageProcessing::MiniMagick.source(original).resize_to_limit!(30, 30)
 
-    size_100 = resize_to_limit(original,  100, 100)
-    size_30 = resize_to_limit(size_100,  30, 30)
-
-    {original: io, small: size_100, tiny: size_30}
+      {original: io, small: size_100, tiny: size_30}
+    end
   end
 end
 

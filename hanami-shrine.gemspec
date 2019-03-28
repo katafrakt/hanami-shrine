@@ -19,7 +19,7 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
   spec.require_paths = ["lib"]
 
-  spec.add_dependency 'shrine', '>= 2.7.0'
+  spec.add_dependency 'shrine', '>= 2.16.0'
   spec.add_dependency 'hanami-model', '>= 1.0'
   spec.add_dependency "hanami-utils", '>= 1.0'
 

@@ -43,6 +43,20 @@ describe 'Hanami::Shrine with plugins' do
         expect(File.exist?(file_path)).to eq(true)
       end
     end
+
+    it 'keeps original size' do
+      version = model.image[:original]
+      file_path = File.join('spec/tmp/uploads', version.id)
+      dimensions = MiniMagick::Image.open(file_path).dimensions
+      expect(dimensions).to eq([470, 459])
+    end
+
+    it 'resizes correctly' do
+      version = model.image[:small]
+      file_path = File.join('spec/tmp/uploads', version.id)
+      dimensions = MiniMagick::Image.open(file_path).dimensions
+      expect(dimensions).to eq([100, 98])
+    end
   end
 
   context 'determine_mime_type' do
