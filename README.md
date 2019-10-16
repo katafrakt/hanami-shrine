@@ -57,7 +57,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ### Testing
 
-Testing is done against 3 major database engines: PostgreSQL, MySQL and sqlite3. It is steered by environment variable `DB`. To run locally, forst `cp .env.travis .env`, then put values matching your local configuration there. After that, you can test all three versions:
+Testing is done against 3 major database engines: PostgreSQL, MySQL and sqlite3. It is steered by environment variable `DB`. To run locally, first `cp .env.travis .env`, then put values matching your local configuration there. After that, you can test all three versions:
 
 ```
 DB=sqlite bundle exec rake
