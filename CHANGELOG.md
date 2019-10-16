@@ -1,3 +1,7 @@
+## 0.4.1
+
+* Make sure it's using Shrine 2.x, as this does not work with 3.0 (yet)
+
 ## 0.4.0
 
 * Added support for Shrine versions 2.7.0 and up, while dropping support for lower versions (@famano, see #6)
