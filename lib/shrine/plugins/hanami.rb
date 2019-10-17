@@ -5,34 +5,25 @@ require 'ostruct'
 class Shrine
   module Plugins
     module Hanami
+      def self.load_dependencies(uploader, **)
+        uploader.plugin :entity
+      end
+
       module AttachmentMethods
         def initialize(name, **options)
           super
 
           module_eval <<-RUBY, __FILE__, __LINE__ + 1
             module EntitySupport
-              attr_reader :attributes
+              attr_reader :_shrine_attachers
+
               def initialize(attributes)
                 attachment = attributes[:#{name}]
-                @_#{name} = attachment
-                self.#{name}_attacher
+                @_shrine_attachers = []
                 super(attributes)
-              end
-
-              def #{name}_data=(data)
-                @#{name}_data = data
-              end
-
-              def #{name}_data
-                super || @#{name}_data
-              end
-
-              def #{name}
-                @_#{name} || super
-              end
-
-              def attributes
-                @_#{name} ? super.merge(#{name}: @_#{name}) : super
+                attacher = self.#{name}_attacher
+                attacher.attach(attachment)
+                @_shrine_attachers << attacher
               end
             end
 
@@ -88,29 +79,18 @@ class Shrine
                 entity = self.class.entity.new(entity)
               end
 
-              _attachments.each do |a|
-                entity = save_attachment(entity, a[:name], a[:class])
+              entity._shrine_attachers.each do |attacher|
+                entity = save_attachment(entity, attacher)
               end
 
               yield(entity)
             end
 
-            def save_attachment(original_entity, name, uploader_class)
-              file = original_entity.send(name)
+            def save_attachment(original_entity, attacher)
+                original_entity_attributes = original_entity.send(:attributes).dup
+                original_entity_attributes.delete(attacher.name)
 
-              if file
-                attacher = uploader_class::Attacher.new(OpenStruct.new, name)
-
-                attacher.assign(file)
-                attacher.finalize
-
-                original_entity_attributes = original_entity.attributes.dup
-                original_entity_attributes.delete(name)
-
-                original_entity.class.new(original_entity_attributes.merge(:"#{name}_data" => attacher.read))
-              else
-                original_entity
-              end
+                original_entity.class.new(original_entity_attributes.merge(:"#{attacher.name}_data" => attacher.column_data))
             end
 
             def delete_attachments(id)

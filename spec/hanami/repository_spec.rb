@@ -12,7 +12,7 @@ describe 'Hanami::Shrine::Repository' do
   let(:image2) { ::File.open('spec/support/cat2.jpg') }
 
   let(:cat) do
-    cat = Kitten.new(image: image)
+    cat = Kitten.new(image: image, title: 'Cute kitten')
     KittenRepository.new.create(cat)
   end
 

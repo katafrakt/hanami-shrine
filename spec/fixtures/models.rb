@@ -24,7 +24,7 @@ class ComplexAttachment < Shrine
 end
 
 class Kitten < Hanami::Entity
-  include ImageAttachment[:image]
+  include ImageAttachment::Attachment(:image)
 end
 
 class KittenRepository < Hanami::Repository
@@ -33,8 +33,8 @@ class KittenRepository < Hanami::Repository
 end
 
 class MultiCat < Hanami::Entity
-  include ImageAttachment[:cat1]
-  include ImageAttachment[:cat2]
+  include ImageAttachment::Attachment(:cat1)
+  include ImageAttachment::Attachment(:cat2)
 end
 
 class MultiCatRepository < Hanami::Repository
@@ -43,7 +43,7 @@ class MultiCatRepository < Hanami::Repository
 end
 
 class PluginsModel < Hanami::Entity
-  include ComplexAttachment[:image]
+  include ComplexAttachment::Attachment(:image)
 end
 
 class PluginsModelRepository < Hanami::Repository
