@@ -1,5 +1,7 @@
 # Hanami::Shrine
 
+**Current status**: this gem's development is currently on hold, waiting for Hanami 2 to be released (which will probably make it obsolete anyway).
+
 This gem aims at providing support for [Shrine](https://github.com/shrinerb/shrine) uploader in Hanami applications. It also tries to be as simple as possible, without polluting the world around.
 
 [![Build Status](https://travis-ci.org/katafrakt/hanami-shrine.svg)](https://travis-ci.org/katafrakt/hanami-shrine)
