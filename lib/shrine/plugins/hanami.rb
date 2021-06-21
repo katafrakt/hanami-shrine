@@ -11,7 +11,6 @@ class Shrine
 
           module_eval <<-RUBY, __FILE__, __LINE__ + 1
             module EntitySupport
-              attr_reader :attributes
               def initialize(attributes)
                 attachment = attributes[:#{name}]
                 @_#{name} = attachment
@@ -121,6 +120,18 @@ class Shrine
               end
             end
           end
+        end
+      end
+
+      module AttacherMethods
+        private
+
+        def convert_after_read(value)
+          sequel_json_value?(value) ? value.to_hash : super
+        end
+
+        def sequel_json_value?(value)
+          defined?(Sequel::Postgres::JSONHashBase) && value.is_a?(Sequel::Postgres::JSONHashBase)
         end
       end
     end
